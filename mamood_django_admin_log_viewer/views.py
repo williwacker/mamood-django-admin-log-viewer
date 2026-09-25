@@ -28,7 +28,20 @@ def log_detail_view(request, filename):
         if log_file['name'] == filename:
             selected_file = log_file
             break
-    
+        # If it's a rotational group, check individual files
+        if log_file.get('type') == 'rotational_group':
+            for rot_file in log_file['rotational_files']:
+                if rot_file['name'] == filename:
+                    selected_file = {
+                        'name': filename,
+                        'path': rot_file['path'],
+                        'size': rot_file['size'],
+                        'modified': rot_file['modified'],
+                        'is_rotational': True,
+                        'parent_group': log_file['name']
+                    }
+                    break
+
     if not selected_file:
         raise Http404("Log file not found")
     
@@ -74,7 +87,20 @@ def log_ajax_view(request, filename):
         if log_file['name'] == filename:
             selected_file = log_file
             break
-    
+        # If it's a rotational group, check individual files
+        if log_file.get('type') == 'rotational_group':
+            for rot_file in log_file['rotational_files']:
+                if rot_file['name'] == filename:
+                    selected_file = {
+                        'name': filename,
+                        'path': rot_file['path'],
+                        'size': rot_file['size'],
+                        'modified': rot_file['modified'],
+                        'is_rotational': True,
+                        'parent_group': log_file['name']
+                    }
+                    break
+
     if not selected_file:
         return JsonResponse({'error': 'Log file not found'}, status=404)
     

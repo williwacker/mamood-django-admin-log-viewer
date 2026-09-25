@@ -606,8 +606,8 @@ class LogViewer {
                 }
                 
                 // Update current page info from response
-                if (data.current_page) {
-                    this.currentPage = data.current_page;
+                if (data.current_page !== undefined) {
+                    this.currentPage = parseInt(data.current_page, 10) || 1;
                 }
                 
                 // Check if content actually changed
@@ -797,9 +797,11 @@ class LogViewer {
     
     updateNavigationButtons(currentPage, totalPages) {
         // Update First and Previous buttons
-        const firstBtn = document.querySelector('a[href*="page=1"]');
-        const prevBtn = document.querySelector('a[href*="page="]:not([href*="page=1"]):not([href*="page=' + totalPages + '"])');
-        
+        const firstBtn = document.getElementById('first-page-btn');
+		const prevBtn  = document.getElementById('prev-page-btn');
+		let nextBtn  = document.getElementById('next-page-btn');
+		let lastBtn  = document.getElementById('last-page-btn');
+
         // Find Previous button more specifically
         const allPrevBtns = document.querySelectorAll('.pagination-buttons a');
         let actualPrevBtn = null;
@@ -831,8 +833,8 @@ class LogViewer {
         }
         
         // Update Next and Last buttons
-        let nextBtn = null;
-        let lastBtn = null;
+        nextBtn = null;
+        lastBtn = null;
         allPrevBtns.forEach(btn => {
             if (btn.textContent.trim() === 'Next') {
                 nextBtn = btn;

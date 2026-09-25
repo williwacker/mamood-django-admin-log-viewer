@@ -223,18 +223,14 @@
             <span>Page {{ current_page }} of {{ total_pages }}</span>
         </div>
         <div class="pagination-buttons">
-            {% if current_page > 1 %}
-                <a href="?page=1" class="button secondary">First</a>
-                <a href="?page={{ current_page|add:'-1' }}" class="button secondary">Previous</a>
-            {% endif %}
-            
+                <a id="first-page-btn" href="?page=1" class="button secondary">First</a>
+                <a id="prev-page-btn" href="?page={{ current_page|add:'-1' }}" class="button secondary">Previous</a>
+
             <input type="number" id="page-jump" min="1" max="{{ total_pages }}" value="{{ current_page }}" class="page-jump-input">
             <button onclick="jumpToPage()" class="button default">Go</button>
-            
-            {% if current_page < total_pages %}
-                <a href="?page={{ current_page|add:'1' }}" class="button secondary">Next</a>
-                <a href="?page={{ total_pages }}" class="button secondary">Last</a>
-            {% endif %}
+
+                <a id="next-page-btn" href="?page={{ current_page|add:'1' }}" class="button secondary">Next</a>
+                <a id="last-page-btn" href="?page={{ total_pages }}" class="button secondary">Last</a>
         </div>
     </div>
     {% else %}
